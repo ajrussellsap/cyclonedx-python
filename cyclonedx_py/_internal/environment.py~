@@ -214,21 +214,6 @@ class EnvironmentBB(BomBuilder):
             root_c_npname = normalize_packagename(root_c.name)
             root_c_existed = all_components.get(root_c_npname)
             if root_c_existed is not None:
-                # Keep the extra information we have gathered about the root component
-                if root_c_existed[0].purl:
-                    root_c.purl = root_c_existed[0].purl
-                if root_c_existed[0].version and not root_c.version:
-                    root_c.version = root_c_existed[0].version
-                if root_c_existed[0].properties:
-                    root_c.properties = root_c_existed[0].properties
-                if root_c_existed[0].external_references:
-                    if not root_c.external_references:
-                        root_c.external_references = root_c_existed[0].external_references
-                    else:
-                        existing_refs = [ext_ref.type for ext_ref in root_c.external_references]
-                        for component_ext_ref in root_c_existed[0].external_references:
-                            if not component_ext_ref.type in existing_refs:
-                                root_c.external_references.add(component_ext_ref)
                 bom.components.remove(root_c_existed[0])
             del root_c_existed
             all_components[root_c_npname] = rc
